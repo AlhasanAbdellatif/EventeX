@@ -32,6 +32,9 @@ public class Event {
     }
     
     public void setName(String name) {
+	Statement mystmt = start.conn.createStatement();
+        String Query = "Update Event" + "set Name = 'name'" + "where EventID = \'"+EventID+"\'";
+        mystmt.executeUpdate(Query);    
 	Name = name;
     }
     
@@ -44,7 +47,10 @@ public class Event {
     }
     
     public void setCategory(String category) {
-	Name = category;
+	Statement mystmt = start.conn.createStatement();
+        String Query = "Update Event" + "set Category = 'category'" + "where EventID = \'"+EventID+"\'";
+        mystmt.executeUpdate(Query);    
+	Category = category;
     }
     
     public int getOwnerID(){
@@ -56,6 +62,9 @@ public class Event {
     }
     
     public void setNo_of_attendees(int no_of_attendees) {
+	Statement mystmt = start.conn.createStatement();
+        String Query = "Update Event" + "set No_of_attendees = 'no_of_attendees'" + "where EventID = \'"+EventID+"\'";
+        mystmt.executeUpdate(Query);   
 	No_of_attendees = no_of_attendees;
     }
     
@@ -64,6 +73,9 @@ public class Event {
     }
     
     public void setDescription(String description) {
+	Statement mystmt = start.conn.createStatement();
+        String Query = "Update Event" + "set Description = 'description'" + "where EventID = \'"+EventID+"\'";
+        mystmt.executeUpdate(Query);     
 	Description = description;
     }
     
@@ -71,8 +83,11 @@ public class Event {
         return Date;
     }
     
-    public void setDate(String date) {
-	Description = date;
+    public void setDate(ArrayList<Integer> date) {
+	Statement mystmt = start.conn.createStatement();
+        String Query = "Update Event" + "set Date = 'date'" + "where EventID = \'"+EventID+"\'";
+        mystmt.executeUpdate(Query);      
+	Date = date;
     }
 }
     
