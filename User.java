@@ -22,6 +22,9 @@ public class User {
 	   * @param userID is the value to set the UserID to */
 	  
 	public void setUserID(int userID) {
+		Statement mystmt = start.conn.createStatement();
+		String Query = "Update User"
+		mystmt.executeUpdate("Insert * from Event where Id=\'"+eventID+"\'");
 		UserID = userID;
 	}
 
@@ -90,8 +93,13 @@ public class User {
 	}
 	
 	///// Constructor	
-	User(int ID) {
-		UserID = ID;
+	User(String name) {
+		Name = name;
+		Statement mystmt = start.conn.createStatement();
+		String Query = "Insert into User "
+				+ "(Name)"
+				+ "values (\'" +name+"\');
+		mystmt.executeUpdate(Query);
 	}
 	
 	
