@@ -24,7 +24,9 @@ public class User {
 	public void setUserID(int userID) {
 		Statement mystmt = start.conn.createStatement();
 		String Query = "Update User"
-		mystmt.executeUpdate("Insert * from Event where Id=\'"+eventID+"\'");
+				+ "set Id= 'userID'"
+				+ "where Name = \'"+Name+"\'"; 
+		mystmt.executeUpdate(Query);
 		UserID = userID;
 	}
 
