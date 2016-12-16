@@ -97,22 +97,28 @@ public class User {
 	
 	public void Create_Event(String E_name, String Category, String Date, String Description){
 		Event EV = new Event (E_name, Category, Date , Description);
-		/// give the event an ID based on its entry number in the Database
-		/// Add the event to the database 
-		
+		Statement mystmt = start.conn.createStatement();
+		int OwnerID = getUserID();
+		// creating the event entry in the database
+		String Query2 = "Insert into Event "
+				+ "(Name, Owner, Category, Description, Date)"
+				+ "values (\'" +E_name+"\',\'" +OwnerID+"\',\'" +Category+"\',\'" +"Description"+"\',\'" +Date+"\')";
+		mystmt.executeUpdate(Query2);
+				
 	}
-	
+
 	
 		
-	
 	public void attend_Event(int EventID) {		
 		int User_ID = getUserID();
-		ArrayList<Integer> UserIDs;
-		UserIDs.add(User_ID);
+		int[] UserIDs; 
 		/// retrieve the Event attributes from the database
+		Statement mystmt = start.conn.createStatement();
+		ResultSet Event_info = mystmt.executeQuery("Select * from Event where Id=\'"+EventID+"\'");
+		UserIDs = Event_info.getArray(7);
 		/// requires Database function to insert the U_ID to that event database
 		String User_name = getName();
-		// String Event_name ====> the variable which will contain the event name obtained from the database in the second line of this method  
+		String Event_name = Event_info.getString(1); //====> the variable which will contain the event name obtained from the database in the second line of this method  
 		String R = "will attend your event";
 		String Content = User_name + R + Event_name;
 		Notification NT = new Notification(Content);
