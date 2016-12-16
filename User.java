@@ -89,7 +89,7 @@ public class User {
 		Preferences = preferences;
 	}
 	
-	
+	///// Constructor	
 	User(int ID) {
 		UserID = ID;
 	}
@@ -103,8 +103,12 @@ public class User {
 	}
 	
 	
+		
+	
 	public void attend_Event(int EventID) {		
 		int User_ID = getUserID();
+		ArrayList<Integer> UserIDs;
+		UserIDs.add(User_ID);
 		/// retrieve the Event attributes from the database
 		/// requires Database function to insert the U_ID to that event database
 		String User_name = getName();
@@ -112,19 +116,37 @@ public class User {
 		String R = "will attend your event";
 		String Content = User_name + R + Event_name;
 		Notification NT = new Notification(Content);
-		NT.send_notification(User U); /// the user meant here is the owner whose attributes are also obtained from the database in the second line of this method
-	    /// NOTE: The argument (User U) in the last line should be changed to UserID which corresponds to the owner ID obtained 
-		///       from the database in the second line of this method 
+		NT.send_notification(UserIDs);
+	    
 	}
 
 	
+	
 	public void Delete_Event(int EventID) {
-		
+		// Remove the entire row in the event table having the ID EventID
+		/*int User_ID = getUserID();
+		int Event_ID = E.getEventID();
+		boolean Check = E.checkOwner(User_ID);
+		if (Check==true){
+			//// Delete the row containing the event with the ID Event_ID from the event Database
+		}*/
+		///// get the event name from the database
+		String R = "was Deleted";
+		/// retrieve the IDs of the attendees AT_IDs
+		String Content = Event_name + R;
+		Notification NT = new Notification(Content);
+		NT.send_notification(AT_IDs);
 	}
 	
 	
 	public void InviteUser(int userID , int eventID) {
-		
+		String inviter_name = getName();
+		ArrayList<Integer> UserIDs;
+		UserIDs.add(userID);
+		/// retrieve the event name Event_name
+		Content = inviter_name + " invited you to attend the event " + Event_name;
+		Notification NT = new Notification(Content);
+		NT.send_notification(UserIDs);
 	}
 
 
