@@ -150,7 +150,10 @@ public class User {
 		ArrayList<Integer> UserIDs;
 		UserIDs.add(userID);
 		/// retrieve the event name Event_name
-		Content = inviter_name + " invited you to attend the event " + Event_name;
+		Statement mystmt = start.conn.createStatement();
+		ResultSet Event_N = mystmt.executeQuery("Select Name from Event where Id=\'"+eventID+"\'");
+		String Event_name = Event_N.getString(1);
+		String Content = inviter_name + " invited you to attend the event " + Event_name;
 		Notification NT = new Notification(Content);
 		NT.send_notification(UserIDs);
 	}
