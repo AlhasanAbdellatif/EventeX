@@ -24,7 +24,7 @@ public class User {
 	public void setUserID(int userID) {
 		Statement mystmt = start.conn.createStatement();
 		String Query = "Update User"
-				+ "set Id= 'userID'"
+				+ "set Id= \'"+userID+"\'"
 				+ "where Name = \'"+Name+"\'"; 
 		mystmt.executeUpdate(Query);
 		UserID = userID;
@@ -43,6 +43,11 @@ public class User {
 	   * @param name is the value to set the Name to */
 	  
 	public void setName(String name) {
+		Statement mystmt = start.conn.createStatement();
+		String Query = "Update User"
+				+ "set Name= \'"+name+"\'"
+				+ "where Id = \'"+UserID+"\'"; 
+		mystmt.executeUpdate(Query);
 		Name = name;
 	}
 
@@ -59,6 +64,11 @@ public class User {
 	   * @param password is the value to set user Password to */
 	  
 	public void setPassword(String password) {
+		Statement mystmt = start.conn.createStatement();
+		String Query = "Update User"
+				+ "set Password= \'"+password+"\'"
+				+ "where Id = \'"+UserID+"\'"; 
+		mystmt.executeUpdate(Query);
 		Password = password;
 	}
 
@@ -75,6 +85,11 @@ public class User {
 	   * @param email is the value to set the user Email to */
 	  
 	public void setEmail(String email) {
+		Statement mystmt = start.conn.createStatement();
+		String Query = "Update User"
+				+ "set Email= \'"+email+"\'"
+				+ "where Id = \'"+UserID+"\'"; 
+		mystmt.executeUpdate(Query);
 		Email = email;
 	}
 
@@ -91,17 +106,23 @@ public class User {
 	   * @param preferences is the value to set the user Preferences to */
 	
 	public void setPreferences(ArrayList<String> preferences) {
+		Statement mystmt = start.conn.createStatement();
+		String Query = "Update User"
+				+ "set Preferences= \'"+preferences+"\'"
+				+ "where Id = \'"+UserID+"\'"; 
+		mystmt.executeUpdate(Query);
 		Preferences = preferences;
 	}
 	
 	///// Constructor	
-	User(String name) {
-		Name = name;
+	User(int ID) {
+		UserID = ID;
 		Statement mystmt = start.conn.createStatement();
-		String Query = "Insert into User "
-				+ "(Name)"
-				+ "values (\'" +name+"\');
-		mystmt.executeUpdate(Query);
+		ResultSet User_info = mystmt.executeQuery("Select * from User where Id=\'" +UserID+"\' ");
+		Password = User_info.getString(3);
+		Email = User_info.getString(4);
+		Name = User_info.getString(1);
+		
 	}
 	
 	
