@@ -148,7 +148,15 @@ public class User {
 		Statement mystmt = start.conn.createStatement();
 		ResultSet Event_info = mystmt.executeQuery("Select * from Event where Id=\'"+EventID+"\'");
 		UserIDs = Event_info.getArray(7);
-		/// requires Database function to insert the U_ID to that event database
+		UserIDs_updated = new int[(UserIDs.length)+1];
+		UserIDs_updated[(UserIDs.length)] = User_ID;
+		/// insert the U_ID to that event database
+		Statement mystmt = start.conn.createStatement();
+		String Query = "Insert into Event "
+				+ "(Atendees)"
+				+ "values (\'" +UserIDs_updated+"\')
+		mystmt.executeUpdate(Query);
+		// Setting up the notification
 		String User_name = getName();
 		String Event_name = Event_info.getString(1); //====> the variable which will contain the event name obtained from the database in the second line of this method  
 		String R = "will attend your event";
@@ -160,17 +168,20 @@ public class User {
 
 	
 	
-	public void Delete_Event(int EventID) {
-		// Remove the entire row in the event table having the ID EventID
-		/*int User_ID = getUserID();
-		int Event_ID = E.getEventID();
-		boolean Check = E.checkOwner(User_ID);
-		if (Check==true){
-			//// Delete the row containing the event with the ID Event_ID from the event Database
-		}*/
-		///// get the event name from the database
+	public void Delete_Event(int eventID) {
+		int[] AT_IDs; 
+		/// retrieve the IDs of the attendees AT_IDs for the notification
+		Statement mystmt = start.conn.createStatement();
+		ResultSet E = mystmt.executeQuery("Select Attendees from Event where Id=\'"+eventID+"\'");
+		AT_IDs = E.getArray(1);
+		///// get the event name from the database for the notification
+		Statement mystmt = start.conn.createStatement();
+		ResultSet E = mystmt.executeQuery("Select Name from Event where Id=\'"+eventID+"\'");
+		Event_name = E.getString(1);
+		// Removing the entire row in the event table having the ID EventID
+		Statement mystmt = start.conn.createStatement();
+		mystmt.executeUpdate("Delete * from Event where Id=\'"+eventID+"\'");
 		String R = "was Deleted";
-		/// retrieve the IDs of the attendees AT_IDs
 		String Content = Event_name + R;
 		Notification NT = new Notification(Content);
 		NT.send_notification(AT_IDs);
@@ -179,15 +190,29 @@ public class User {
 	
 	public void InviteUser(int userID , int eventID) {
 		String inviter_name = getName();
-		ArrayList<Integer> UserIDs;
-		UserIDs.add(userID);
+		int[] UserIDs;
+		int[] Invited;
+		///
+		Statement mystmt = start.conn.createStatement();
+		ResultSet Event_info = mystmt.executeQuery("Select * from Event where Id=\'"+eventID+"\'");
+		UserIDs = Event_info.getArray(7);
+		UserIDs_updated = new int[(UserIDs.length)+1];
+		UserIDs_updated[(UserIDs.length)+1] = userID;
+		/// insert the invited user Id to that event database
+		Statement mystmt = start.conn.createStatement();
+		String Query = "Insert into Event "
+				+ "(Atendees)"
+				+ "values (\'" +UserIDs_updated+"\')
+		mystmt.executeUpdate(Query);
+		////
+		Invited[0]=userID;
 		/// retrieve the event name Event_name
 		Statement mystmt = start.conn.createStatement();
 		ResultSet Event_N = mystmt.executeQuery("Select Name from Event where Id=\'"+eventID+"\'");
 		String Event_name = Event_N.getString(1);
 		String Content = inviter_name + " invited you to attend the event " + Event_name;
 		Notification NT = new Notification(Content);
-		NT.send_notification(UserIDs);
+		NT.send_notification(Invited);
 	}
 
 
