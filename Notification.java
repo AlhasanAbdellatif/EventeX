@@ -81,7 +81,8 @@ public class Notification {
 	}
 	
 	
-	public void send_notification()
-	
+	public void send_notification(){
+		
+	}
 	
 }
