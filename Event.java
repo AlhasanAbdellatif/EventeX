@@ -3,14 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eventex;
+package Main;
 
 /**
  *
  * @author Hasan Abdellatif
  */
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import Inerfaces.start;
 public class Event {
     
     private String Name;
@@ -119,6 +123,19 @@ public class Event {
     
     public void setDate(String date) {
 	Date = date;
+    }
+    
+    public  ArrayList<Integer> getAttendeeIds() throws SQLException
+    {
+         Statement ss = start.conn.createStatement();
+        String sql = "Select UserId from Attended where EventId = "+getEventID();
+                ResultSet rs = ss.executeQuery(sql);
+                ArrayList<Integer> ids = new   ArrayList<Integer>();
+                while(rs.next())
+                {
+                    ids.add(Integer.parseInt(rs.getString("UserId")));
+                }
+                return ids;
     }
 }
     
